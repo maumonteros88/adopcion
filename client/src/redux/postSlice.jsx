@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiConnect from "../api/configApi";
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
-  const response = await apiConnect.get('api/posts');
+  const response = await apiConnect.get('/posts');
   return response.data.results;
 });
 export const postsSlice = createSlice({
@@ -30,5 +30,7 @@ export const postsSlice = createSlice({
 });
 
 export const getPosts = (state) => state.posts.posts;
+export const findPost = (id) => (state) =>
+  state.posts.posts.find((post) => post._id === id);
 
 export default postsSlice.reducer;

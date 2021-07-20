@@ -5,11 +5,13 @@ import huella from "./images/huellaGif.gif";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPosts, getPosts } from "./redux/postSlice";
 import useStyle from "./style";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [currentId, setCurrentId] = useState(null)
   const classes = useStyle();
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -36,10 +38,10 @@ function App() {
             alignItems="stretch"
             spacing={3}>
             <Grid item xs={12} sm={7}>
-              <Posts />
+              <Posts setCurrentId={setCurrentId} />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <Form />
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
         </Container>

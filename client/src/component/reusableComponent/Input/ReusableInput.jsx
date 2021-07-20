@@ -1,28 +1,49 @@
-import React from "react";
-import { useFormContext } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 import { TextField } from "@material-ui/core";
-import FormHelperText from '@material-ui/core/FormHelperText'
+import FormHelperText from "@material-ui/core/FormHelperText";
 import useStyle from "../../Form/style";
 
-const MauInput = ({ name, label }) => {
-  const classes = useStyle();
+const ReusableInput = ({ name, label, data }) => {
+  const test = data;
+  const classes = useStyle();  
+
   const {
-    register,
+    control,
+    setValue,
     formState: { errors },
   } = useFormContext();
 
+  useEffect(() => {
+    
+    setValue(name, test, {
+      shouldDirty: true,
+    });
+  }, [data]);
+
   return (
     <>
-      <TextField
-        {...register(name)}
+      <Controller
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <TextField
+            variant="outlined"
+            label={label}
+            value={value}
+            fullWidth={true}
+            onChange={onChange}
+          />
+        )}
         name={name}
-        variant="outlined"
-        label={label}
-        fullWidth={true}
+        defaultValue=""
       />
-      {errors?.[name] && <FormHelperText className={classes.errors}>{errors?.[name]?.message}</FormHelperText>}
+      {errors?.[name] && (
+        <FormHelperText className={classes.errors}>
+          {errors?.[name]?.message}
+        </FormHelperText>
+      )}
     </>
   );
 };
 
-export default MauInput;
+export default ReusableInput;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -10,13 +10,20 @@ const ReusableForm = ({ children, schema, onSubmit }) => {
     resolver: yupResolver(schema),
   });
 
+  useEffect(() => {
+    if (methods.formState.isSubmitSuccessful) {
+      methods.reset({creator:"",name:"", rasgos:"",type:""});
+      console.log('se envio el formulario');
+    }
+  }, [methods.formState.isSubmitSuccessful]);
   return (
     <FormProvider {...methods}>
       <form
         className={`${classes.root} ${classes.form}`}
         autoComplete="off"
         noValidate
-        onSubmit={methods.handleSubmit(onSubmit)}>
+        onSubmit={methods.handleSubmit(onSubmit)}
+        >
         {children}
       </form>
     </FormProvider>

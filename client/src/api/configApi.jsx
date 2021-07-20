@@ -1,9 +1,9 @@
 const axios = require("axios");
 
-const URL = "http://192.168.100.220:3004/api";
+const baseURL = "http://localhost:3004/api";
 
 const apiConnect = axios.create({
-  URL,
+  baseURL,
 });
 
 export default apiConnect;
